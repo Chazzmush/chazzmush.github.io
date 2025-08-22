@@ -1,1 +1,371 @@
-chazzmush.github.io
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lusaka Aqua Initiative | Interactive Report</title>
+    
+    <!-- Placeholder Comments -->
+    <!-- Chosen Palette: Calm Harmony (Stone, Sky Blue, Slate) -->
+    <!-- Application Structure Plan: The application uses a thematic, top-down narrative structure to guide the user from understanding the problem to becoming part of the solution. It starts with a high-impact hero section to state the mission, explains the 'Why' (The Challenge), presents the 'What' through an interactive goals dashboard, and finishes with a clear 'Call to Action' (Make an Impact/Donate). This structure was chosen over a simple report layout to create a persuasive user journey that builds understanding and empathy, ultimately encouraging donations. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Quantitative Goals (25 water points, 5k educated, 40% illness reduction). Goal: Inform/Track Progress. Viz/Method: Chart.js Donut Charts. Interaction: Hover tooltips show details. Justification: Donut charts are excellent for showing part-to-whole relationships and progress towards a target in a visually compelling way that is more engaging than text alone. Library: Chart.js (Canvas).
+        - Report Info: Our collaborative process. Goal: Organize/Explain Process. Viz/Method: HTML/CSS horizontal step-flow diagram. Interaction: None, purely informational. Justification: A visual flow diagram breaks down the process into digestible steps, making the organization's strategy transparent and easy to understand. Library: Tailwind CSS.
+        - Report Info: Call for donations. Goal: Persuade/Call to Action. Viz/Method: Dynamic text block and Image Generation. Interaction: Clicking preset donation amounts updates the text to show the specific, tangible impact of that amount. A separate button generates a new image to provide a visual of the impact. Justification: This provides immediate, positive feedback to the user, directly connecting their potential donation to a real-world outcome and increasing the likelihood of conversion. The image generation element adds a powerful visual component to this storytelling. Library: Vanilla JS, Imagen-3.0-generate-002 API.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F5F5F4; /* stone-100 */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 250px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 250px;
+        }
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 200px;
+                max-width: 200px;
+            }
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <!-- Header -->
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="https://www.lusaka-aqua-initiative.org" class="text-xl font-bold text-sky-700">Lusaka Aqua Initiative</a>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#challenge" class="text-slate-600 hover:text-sky-600 transition-colors">The Challenge</a>
+                <a href="#goals" class="text-slate-600 hover:text-sky-600 transition-colors">Our Goals</a>
+                <a href="#impact" class="bg-sky-600 text-white px-5 py-2 rounded-full hover:bg-sky-700 transition-colors shadow-md">Make an Impact</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="bg-white">
+            <div class="container mx-auto px-6 py-20 text-center">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 leading-tight">Water is Life. Let's Bring It to Chawama.</h1>
+                <p class="mt-4 text-lg md:text-xl text-slate-600 max-w-3xl mx-auto">We are a community-led non-profit dedicated to building a future where every family in Chawama, Lusaka has sustainable access to safe, clean drinking water.</p>
+                <a href="#impact" class="mt-8 inline-block bg-sky-600 text-white px-10 py-4 rounded-full text-lg font-semibold hover:bg-sky-700 transition-transform hover:scale-105 shadow-xl">Support Our Mission</a>
+            </div>
+        </section>
+
+        <!-- The Challenge Section -->
+        <section id="challenge" class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center max-w-3xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900">The Challenge We Face</h2>
+                    <p class="mt-4 text-lg text-slate-600">
+                        This section outlines the critical water crisis in the Chawama community. Access to safe drinking water is not a guarantee, a reality that leads to severe health consequences and holds the community back. Understanding this problem is the first step to becoming part of the solution.
+                    </p>
+                </div>
+                <div class="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-8 text-center">
+                    <div class="bg-white p-8 rounded-2xl shadow-lg">
+                        <span class="text-5xl">🚱</span>
+                        <h3 class="mt-4 text-xl font-bold">Unsafe Sources</h3>
+                        <p class="mt-2 text-slate-600">Many residents are forced to rely on contaminated shallow wells and unreliable sources for their daily water needs.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-2xl shadow-lg">
+                        <span class="text-5xl">⚕️</span>
+                        <h3 class="mt-4 text-xl font-bold">Waterborne Diseases</h3>
+                        <p class="mt-2 text-slate-600">Frequent outbreaks of preventable diseases like cholera and typhoid are a direct result of contaminated water.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-2xl shadow-lg md:col-span-2 lg:col-span-1">
+                        <span class="text-5xl">🚶‍♀️</span>
+                        <h3 class="mt-4 text-xl font-bold">The Daily Burden</h3>
+                        <p class="mt-2 text-slate-600">Women and children often spend hours each day fetching water, time that could be spent in school or on economic activities.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Our Goals Dashboard -->
+        <section id="goals" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center max-w-3xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900">Our Action Plan: A Dashboard for Change</h2>
+                    <p class="mt-4 text-lg text-slate-600">
+                        Here you can explore our clear, measurable goals for transforming the community of Chawama. This interactive dashboard visualizes our key objectives and tracks our progress. Each goal represents a critical pillar of our strategy to create lasting, sustainable change.
+                    </p>
+                </div>
+                <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Goal 1: Water Points -->
+                    <div class="bg-stone-100 p-8 rounded-2xl flex flex-col items-center text-center">
+                        <h3 class="text-2xl font-bold">Install Water Points</h3>
+                        <p class="text-slate-600 mt-2">Goal: 25 community water points in 18 months.</p>
+                        <div class="chart-container mt-4">
+                            <canvas id="waterPointsChart"></canvas>
+                        </div>
+                    </div>
+                    <!-- Goal 2: Education -->
+                    <div class="bg-stone-100 p-8 rounded-2xl flex flex-col items-center text-center">
+                        <h3 class="text-2xl font-bold">Hygiene Education</h3>
+                        <p class="text-slate-600 mt-2">Goal: Educate 5,000 residents on sanitation.</p>
+                        <div class="chart-container mt-4">
+                            <canvas id="educationChart"></canvas>
+                        </div>
+                    </div>
+                    <!-- Goal 3: Reduce Illness -->
+                    <div class="bg-stone-100 p-8 rounded-2xl flex flex-col items-center text-center">
+                        <h3 class="text-2xl font-bold">Reduce Illness</h3>
+                        <p class="text-slate-600 mt-2">Goal: 40% reduction in waterborne illness in 2 years.</p>
+                        <div class="chart-container mt-4">
+                            <canvas id="illnessChart"></canvas>
+                        </div>
+                    </div>
+                    <!-- Goal 4: Sustainability -->
+                    <div class="bg-stone-100 p-8 rounded-2xl flex flex-col items-center text-center">
+                        <h3 class="text-2xl font-bold">Ensure Sustainability</h3>
+                        <p class="text-slate-600 mt-2">Goal: Establish a community-led maintenance program.</p>
+                        <div class="chart-container mt-4 flex items-center justify-center">
+                            <span class="text-7xl">🤝</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Make an Impact Section -->
+        <section id="impact" class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center max-w-3xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900">Make a Tangible Impact</h2>
+                    <p class="mt-4 text-lg text-slate-600">
+                        Your contribution directly fuels our work on the ground. This section allows you to become an active partner in our mission. By selecting a donation amount, you can see the specific, real-world impact your generosity can have on the families of Chawama.
+                    </p>
+                </div>
+                <div class="max-w-2xl mx-auto mt-12 bg-white p-8 md:p-12 rounded-2xl shadow-2xl">
+                    <h3 class="text-2xl font-bold text-center">Join Us in Building a Healthier Future</h3>
+                    <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <button data-amount="100" class="donation-option text-lg font-semibold border-2 border-slate-200 py-3 rounded-lg hover:bg-sky-100 hover:border-sky-500 transition-colors">K100</button>
+                        <button data-amount="250" class="donation-option text-lg font-semibold border-2 border-slate-200 py-3 rounded-lg hover:bg-sky-100 hover:border-sky-500 transition-colors">K250</button>
+                        <button data-amount="500" class="donation-option text-lg font-semibold border-2 border-slate-200 py-3 rounded-lg hover:bg-sky-100 hover:border-sky-500 transition-colors">K500</button>
+                        <button data-amount="1000" class="donation-option text-lg font-semibold border-2 border-slate-200 py-3 rounded-lg hover:bg-sky-100 hover:border-sky-500 transition-colors">K1000</button>
+                    </div>
+                    <div class="mt-6 bg-sky-50 p-6 rounded-lg text-center min-h-[80px]">
+                        <p id="impact-text" class="text-lg text-sky-800 font-medium">Select an amount to see your potential impact.</p>
+                    </div>
+                    <div class="mt-8 text-center">
+                        <h4 class="text-xl font-bold">See the Impact in Action</h4>
+                        <button id="generateImageBtn" class="mt-4 inline-flex items-center bg-sky-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-sky-700 transition-colors shadow-lg">
+                            <span id="loadingSpinner" class="hidden animate-spin h-5 w-5 mr-3 border-4 border-white border-t-transparent rounded-full"></span>
+                            <span>Generate an Image</span>
+                        </button>
+                        <div id="imageContainer" class="mt-6 flex justify-center"></div>
+                    </div>
+                    <button class="mt-6 w-full bg-sky-600 text-white text-xl font-bold py-4 rounded-lg hover:bg-sky-700 transition-colors shadow-lg">Donate Now</button>
+                    
+                    <!-- Payment Details Section -->
+                    <div class="mt-12">
+                        <h4 class="text-2xl font-bold text-center mb-6">Other Ways to Donate & Contact Us</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <!-- Mobile Money & PayPal -->
+                            <div class="bg-white p-6 rounded-xl shadow-lg border-2 border-slate-100">
+                                <h5 class="text-xl font-bold text-slate-800 mb-4">Mobile & Online Payments</h5>
+                                <ul class="space-y-4 text-slate-600">
+                                    <li>
+                                        <strong>PayPal:</strong> <span class="text-sky-700">cmushondwa@gmail.com</span>
+                                    </li>
+                                    <li>
+                                        <strong>Airtel Mobile Money:</strong> +260972083825 <br>
+                                        <span class="text-sm text-slate-500">(Chaza Mushondwa)</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Bank Details -->
+                            <div class="bg-white p-6 rounded-xl shadow-lg border-2 border-slate-100">
+                                <h5 class="text-xl font-bold text-slate-800 mb-4">Bank Transfer</h5>
+                                <ul class="space-y-4 text-slate-600">
+                                    <li>
+                                        <strong>Bank Name:</strong> INDO Zambia Bank
+                                    </li>
+                                    <li>
+                                        <strong>Account Number:</strong> 0051010003309
+                                    </li>
+                                    <li>
+                                        <strong>Branch:</strong> Northend
+                                    </li>
+                                    <li>
+                                        <strong>SWIFT Code:</strong> INZAZMLX
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Contact Details -->
+                            <div class="bg-white p-6 rounded-xl shadow-lg border-2 border-slate-100">
+                                <h5 class="text-xl font-bold text-slate-800 mb-4">Contact Us</h5>
+                                <ul class="space-y-4 text-slate-600">
+                                    <li>
+                                        <strong>Mobile:</strong> <span class="text-sky-700">+260950067705</span>
+                                    </li>
+                                    <li>
+                                        <strong>Email:</strong> <span class="text-sky-700">egidienirere2020@gmail.com</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 text-white py-12">
+        <div class="container mx-auto px-6 text-center">
+            <h4 class="text-xl font-bold">Lusaka Aqua Initiative</h4>
+            <p class="text-slate-400 mt-2">A community-first organization bringing clean water to Chawama, Lusaka, Zambia.</p>
+            <p class="mt-8 text-slate-500 text-sm">&copy; 2025 Lusaka Aqua Initiative. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const chartData = {
+                waterPoints: { current: 3, target: 25 },
+                education: { current: 750, target: 5000 },
+                illness: { current: 5, target: 40 }
+            };
+
+            const createDonutChart = (ctx, data, label, color) => {
+                return new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: [label, 'Remaining'],
+                        datasets: [{
+                            data: [data.current, data.target - data.current],
+                            backgroundColor: [color, '#e5e7eb'],
+                            borderColor: ['#ffffff', '#ffffff'],
+                            borderWidth: 4,
+                            hoverOffset: 8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '75%',
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return `${context.label}: ${context.raw}`;
+                                    }
+                                }
+                            }
+                        },
+                        animation: {
+                            animateScale: true,
+                            animateRotate: true
+                        }
+                    }
+                });
+            };
+
+            const waterPointsCtx = document.getElementById('waterPointsChart').getContext('2d');
+            createDonutChart(waterPointsCtx, chartData.waterPoints, 'Installed', '#0284c7');
+
+            const educationCtx = document.getElementById('educationChart').getContext('2d');
+            createDonutChart(educationCtx, chartData.education, 'Educated', '#0ea5e9');
+
+            const illnessCtx = document.getElementById('illnessChart').getContext('2d');
+            createDonutChart(illnessCtx, chartData.illness, '% Reduction', '#38bdf8');
+
+            const donationOptions = document.querySelectorAll('.donation-option');
+            const impactText = document.getElementById('impact-text');
+            const impactMessages = {
+                '100': '<strong>K100</strong> can provide a family with a hygiene and water purification kit for one month.',
+                '250': '<strong>K250</strong> helps purchase essential tools for our community maintenance teams.',
+                '500': '<strong>K500</strong> contributes to the cost of pipes and fittings for a new community water point.',
+                '1000': '<strong>K1000</strong> can fund a full day of hygiene education workshops for an entire neighborhood.'
+            };
+
+            donationOptions.forEach(button => {
+                button.addEventListener('click', () => {
+                    donationOptions.forEach(btn => btn.classList.remove('bg-sky-100', 'border-sky-500'));
+                    button.classList.add('bg-sky-100', 'border-sky-500');
+                    const amount = button.dataset.amount;
+                    impactText.innerHTML = impactMessages[amount];
+                });
+            });
+
+            const generateImageBtn = document.getElementById('generateImageBtn');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const imageContainer = document.getElementById('imageContainer');
+
+            generateImageBtn.addEventListener('click', async () => {
+                const prompt = "little African kids playing, laughing, and happy by a pool of borehole water";
+                
+                loadingSpinner.classList.remove('hidden');
+                generateImageBtn.disabled = true;
+                imageContainer.innerHTML = '';
+
+                try {
+                    const payload = { instances: { prompt: prompt }, parameters: { "sampleCount": 1} };
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
+
+                    let response = null;
+                    let retries = 0;
+                    const maxRetries = 3;
+                    const initialDelay = 1000;
+
+                    while (retries < maxRetries) {
+                        try {
+                            response = await fetch(apiUrl, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify(payload)
+                            });
+                            if (response.status !== 429) {
+                                break;
+                            }
+                            await new Promise(resolve => setTimeout(resolve, initialDelay * Math.pow(2, retries)));
+                            retries++;
+                        } catch (e) {
+                            await new Promise(resolve => setTimeout(resolve, initialDelay * Math.pow(2, retries)));
+                            retries++;
+                        }
+                    }
+                    if (!response.ok) {
+                        throw new Error(`API call failed with status: ${response.status}`);
+                    }
+                    const result = await response.json();
+                    
+                    if (result.predictions && result.predictions.length > 0 && result.predictions[0].bytesBase64Encoded) {
+                        const imageUrl = `data:image/png;base64,${result.predictions[0].bytesBase64Encoded}`;
+                        const img = document.createElement('img');
+                        img.src = imageUrl;
+                        img.alt = prompt;
+                        img.className = 'w-full h-auto rounded-lg shadow-md';
+                        imageContainer.appendChild(img);
+                    } else {
+                        imageContainer.innerHTML = '<p class="text-red-500">Failed to generate image. Please try again.</p>';
+                    }
+                } catch (error) {
+                    imageContainer.innerHTML = `<p class="text-red-500">Error generating image: ${error.message}</p>`;
+                } finally {
+                    loadingSpinner.classList.add('hidden');
+                    generateImageBtn.disabled = false;
+                }
+            });
+        });
+        
+    </script>
+</body>
+</html>
